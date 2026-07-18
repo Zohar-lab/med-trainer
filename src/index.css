@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Assistant", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-natural-bg: #F9F7F2;
+  --color-natural-text: #3C3633;
+  --color-natural-header: #4A5D4E;
+  --color-natural-header-text: #FDFCF0;
+  --color-natural-accent: #A7C080;
+  --color-natural-accent-hover: #8DA667;
+  --color-natural-secondary: #D9B99B;
+  --color-natural-border: #E3DCD2;
+  --color-natural-callout: #EAE7DD;
+  --color-natural-cream: #FDFCF0;
+  --color-natural-dark-text: #2D2926;
+  --color-natural-medium-text: #5F5449;
+  --color-natural-light-text: #7A6F64;
+}
+
+/* Custom CSS Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Custom RTL-friendly animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Flip card styling */
+.flip-card {
+  perspective: 1000px;
+}
+.flip-card-inner {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.flip-card-flipped {
+  transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+  backface-visibility: hidden;
+}
+.flip-card-back {
+  transform: rotateY(180deg);
+}

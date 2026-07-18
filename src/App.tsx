@@ -178,6 +178,30 @@ export default function App() {
               המפתח נשמר בדפדפן המקומי שלכם בלבד (localStorage) ואינו נשלח לשום שרת זר. פניות הבינה המלאכותית יישלחו ישירות מהדפדפן שלכם אל השרתים המאובטחים של Google.
             </div>
 
+            <div className="bg-emerald-50/80 border border-emerald-200/60 p-3.5 rounded-2xl mb-4 text-xs text-emerald-950 leading-relaxed text-right">
+              <span className="font-bold text-emerald-800 block mb-1.5">🔑 כיצד לקבל מפתח API בחינם?</span>
+              <ol className="list-decimal list-inside space-y-1.5 text-[11px] text-emerald-900">
+                <li>
+                  היכנסו לפלטפורמת{" "}
+                  <a 
+                    href="https://aistudio.google.com/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="underline font-bold text-emerald-700 hover:text-emerald-950"
+                  >
+                    Google AI Studio
+                  </a>{" "}
+                  והתחברו באמצעות חשבון הגוגל שלכם.
+                </li>
+                <li>
+                  לחצו על כפתור <strong>Get API key</strong> בראש התפריט הצידי או העליון.
+                </li>
+                <li>
+                  לחצו על <strong>Create API key</strong>, העתיקו את המפתח שנוצר (מתחיל ב-<code>AIzaSy</code>) והדביקו אותו בתיבה למטה.
+                </li>
+              </ol>
+            </div>
+
             <div className="space-y-3 mb-6">
               <label className="block text-xs font-bold text-natural-dark-text">מפתח API אישי של Gemini:</label>
               <div className="relative">

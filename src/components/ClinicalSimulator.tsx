@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { CLINICAL_SCENARIOS, MEDICATIONS } from "../data";
 import { ClinicalScenario } from "../types";
 import { Sparkles, HeartPulse, ShieldAlert, Check, X, RefreshCw, Activity, Zap, ChevronLeft } from "lucide-react";
+import { generateScenario } from "../services/gemini";
 
 export default function ClinicalSimulator() {
   const [index, setIndex] = useState<number>(0);
@@ -57,19 +58,7 @@ export default function ClinicalSimulator() {
     setAiScenario(null);
 
     try {
-      const response = await fetch("/api/gemini/generate-scenario", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" }
-      });
-
-      if (!response.ok) {
-        throw new Error("שגיאה בחיבור לשרת הבינה המלאכותית.");
-      }
-
-      const data = await response.json();
-      if (!data.scenario || !data.correctDrug) {
-        throw new Error("נתונים לא תקינים שהתקבלו משרת ה-AI.");
-      }
+      const data = await generateScenario();
 
       // Generate options containing correct drug + 3 random other drugs
       const correctDrugName = data.correctDrug;
@@ -89,7 +78,7 @@ export default function ClinicalSimulator() {
       });
     } catch (err: any) {
       console.error(err);
-      setAiError("לא הצלחנו ליצור תרחיש AI כרגע. אנא ודאו שמפתח ה-Gemini מוגדר כראוי או המשיכו בתרחישים המובנים.");
+      setAiError("לא הצלחנו ליצור תרחיש AI כרגע. אנא ודאו שמפתח ה-Gemini מוגדר כראוי או שהרשת זמינה.");
     } finally {
       setAiLoading(false);
     }

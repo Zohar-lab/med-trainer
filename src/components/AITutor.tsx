@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Sparkles, Send, Brain, RefreshCw, AlertCircle, HelpCircle } from "lucide-react";
+import { sendChatMessage } from "../services/gemini";
 
 interface Message {
   role: "user" | "assistant";
@@ -34,31 +35,16 @@ export default function AITutor() {
     const userMsg = input.trim();
     setInput("");
     setError(null);
-    setMessages(prev => [...prev, { role: "user", content: userMsg }]);
+    const updatedMessages = [...messages, { role: "user" as const, content: userMsg }];
+    setMessages(updatedMessages);
     setLoading(true);
 
     try {
-      const response = await fetch("/api/gemini/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [...messages, { role: "user", content: userMsg }]
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("שגיאה בתקשורת עם השרת.");
-      }
-
-      const data = await response.json();
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      setMessages(prev => [...prev, { role: "assistant", content: data.content }]);
+      const reply = await sendChatMessage(updatedMessages);
+      setMessages(prev => [...prev, { role: "assistant", content: reply }]);
     } catch (err: any) {
       console.error(err);
-      setError("שגיאה בחיבור לעוזר הלימוד. ודאו כי מפתח ה-API מוגדר כראוי.");
+      setError("שגיאה בחיבור לעוזר הלימוד. ודאו כי מפתח ה-API מוגדר כראוי או שהרשת זמינה.");
     } finally {
       setLoading(false);
     }

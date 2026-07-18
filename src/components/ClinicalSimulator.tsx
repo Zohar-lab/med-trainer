@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CLINICAL_SCENARIOS, MEDICATIONS } from "../data";
 import { ClinicalScenario } from "../types";
 import { Sparkles, HeartPulse, ShieldAlert, Check, X, RefreshCw, Activity, Zap, ChevronLeft } from "lucide-react";
-import { generateScenario } from "../services/gemini";
+import { generateScenario, isUsingCustomKey } from "../services/gemini";
 
 export default function ClinicalSimulator() {
   const [index, setIndex] = useState<number>(0);
@@ -78,7 +78,11 @@ export default function ClinicalSimulator() {
       });
     } catch (err: any) {
       console.error(err);
-      setAiError("לא הצלחנו ליצור תרחיש AI כרגע. אנא ודאו שמפתח ה-Gemini מוגדר כראוי או שהרשת זמינה.");
+      if (!isUsingCustomKey()) {
+        setAiError("לא הצלחנו ליצור תרחיש AI. האפליקציה פועלת כעת ללא שרת אחורי (כמו ב-GitHub Pages). אנא הגדירו מפתח Gemini API אישי באמצעות כפתור 'הגדרות API לבינה' שבראש המסך.");
+      } else {
+        setAiError("לא הצלחנו ליצור תרחיש AI כרגע. אנא ודאו שמפתח ה-API שהזנתם תקין ושקיימת חיבוריות לאינטרנט.");
+      }
     } finally {
       setAiLoading(false);
     }

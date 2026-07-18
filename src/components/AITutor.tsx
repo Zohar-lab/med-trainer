@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Sparkles, Send, Brain, RefreshCw, AlertCircle, HelpCircle } from "lucide-react";
-import { sendChatMessage } from "../services/gemini";
+import { sendChatMessage, isUsingCustomKey } from "../services/gemini";
 
 interface Message {
   role: "user" | "assistant";
@@ -44,7 +44,11 @@ export default function AITutor() {
       setMessages(prev => [...prev, { role: "assistant", content: reply }]);
     } catch (err: any) {
       console.error(err);
-      setError("שגיאה בחיבור לעוזר הלימוד. ודאו כי מפתח ה-API מוגדר כראוי או שהרשת זמינה.");
+      if (!isUsingCustomKey()) {
+        setError("שגיאה בחיבור לעוזר הלימוד. האפליקציה פועלת כעת ללא שרת אחורי (כמו ב-GitHub Pages). אנא הגדירו מפתח Gemini API אישי באמצעות כפתור 'הגדרות API לבינה' שבראש המסך.");
+      } else {
+        setError("שגיאה בחיבור לעוזר הלימוד. אנא ודאו שמפתח ה-API שהזנתם תקין ושקיימת חיבוריות לאינטרנט.");
+      }
     } finally {
       setLoading(false);
     }
